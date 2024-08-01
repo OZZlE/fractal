@@ -20,7 +20,7 @@ class Cli extends mix(Configurable, Emitter) {
 
         this._app = app;
         this._commands = new Set();
-        this._vorpal = new Vorpal();
+        this._vorpal = typeof Vorpal === "function" ? new Vorpal() : null;
         this._defaultsLoaded = false;
         this._interactive = false;
         this._configPath = null;
@@ -59,7 +59,7 @@ class Cli extends mix(Configurable, Emitter) {
         const vorpal = this._vorpal;
         const app = this._app;
 
-        action = action || function () {};
+        action = action || function () { };
         config = config || {};
         if (_.isString(config)) {
             config = {
@@ -187,7 +187,7 @@ class Cli extends mix(Configurable, Emitter) {
         if (input.command) {
             // non-interactive mode
 
-            vorpal.ui.attach = () => {}; // fix for vorpal bug in 1.11.4
+            vorpal.ui.attach = () => { }; // fix for vorpal bug in 1.11.4
 
             if (this._scope === 'global') {
                 vorpal.parse(process.argv);
