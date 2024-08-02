@@ -13,6 +13,16 @@ const Configurable = require('@frctl/core').mixins.configurable;
 const Emitter = require('@frctl/core').mixins.emitter;
 const utils = require('@frctl/core').utils;
 
+function isConstructor(f) {
+    try {
+        new f();
+    } catch (err) {
+        // verify err is the expected error and then
+        return false;
+    }
+    return true;
+}
+
 class Cli extends mix(Configurable, Emitter) {
     constructor(app) {
         super(app);
@@ -20,7 +30,7 @@ class Cli extends mix(Configurable, Emitter) {
 
         this._app = app;
         this._commands = new Set();
-        this._vorpal = typeof Vorpal === "function" ? new Vorpal() : null;
+        this._vorpal = isConstructor(Vorpal) ? new Vorpal() : null;
         this._defaultsLoaded = false;
         this._interactive = false;
         this._configPath = null;
